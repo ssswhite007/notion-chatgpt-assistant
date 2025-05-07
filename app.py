@@ -10,7 +10,8 @@ from flask_cors import CORS
 load_dotenv()
 
 # Load environment variables or API keys directly  
-NOTION_API_KEY = os.getenv("NOTION_API_KEY")  
+# NOTION_API_KEY = os.getenv("NOTION_API_KEY")  
+NOTION_API_KEY = "ntn_n8608754952E2dX8eAXkqp0vkQyzaaJJKRk9FKc0a6i5Aq"
 DATABASE_ID = os.getenv("NOTION_DATABASE_ID")  
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")  
@@ -51,7 +52,6 @@ def ingest_data():
     API endpoint to extract data from Notion and store embeddings in Pinecone.  
     """  
     notion_data = notion_api.fetch_database_data(DATABASE_ID)  
-    print(notion_data)
     embedding_utils.upsert_embeddings(notion_data)  
     return jsonify({"message": "Data ingested successfully!"})  
 
@@ -63,7 +63,7 @@ def query_data():
     user_input = request.json.get("query")  
     results = embedding_utils.query_embeddings(user_input)  
     context = "\n".join([f"Name: {result['metadata']['name']}, Tech: {result['metadata']['tech']}, Experience: {result['metadata']['experience']}" for result in results["matches"]])  
-    print(context)
+
     # Generate response with OpenAI  
     prompt = f"""  
     You are a helpful assistant. Use the following context to answer the user's query:  

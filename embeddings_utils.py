@@ -20,11 +20,17 @@ class EmbeddingUtils:
 
     def upsert_embeddings(self, content_chunks):  
         """  
-        Upsert text chunks and their embeddings to the Pinecone index.  
+        Upsert text chunks and their embeddings to the Pinecone index.
+        Each chunk should contain: content, title, name, tech, and experience fields.
         """  
         for i, chunk in enumerate(content_chunks):  
+
             embedding = self.generate_embedding(chunk["content"])  
-            metadata = {"title": chunk["title"]}  
+            metadata = {
+                "name": chunk.get("name", ""),
+                "tech": chunk.get("tech", ""),
+                "experience": chunk.get("experience", "")
+            }  
             self.index.upsert([{  
                 "id": f"doc-{i}",  
                 "values": embedding,  

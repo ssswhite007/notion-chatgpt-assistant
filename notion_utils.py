@@ -1,4 +1,5 @@
 from notion_client import Client  
+import os
 
 class NotionAPI:  
     def __init__(self, api_key):  
@@ -8,18 +9,21 @@ class NotionAPI:
         """  
         Fetch all rows (pages) from a Notion database.  
         """  
+
         response = self.notion.databases.query(database_id=database_id)  
         pages = response.get('results', [])  
         data = []  
         for page in pages:  
-            print(page)
             page_content = self.extract_page_content(page)  
             data.append({  
                 "id": page["id"],  
-                "title": page["properties"]["Name"]["title"][0]["plain_text"],  
+                "name": page["properties"]["Name"]["title"][0]["plain_text"],
+                "tech": page["properties"]["tech"]["rich_text"][0]["plain_text"] if page["properties"]["tech"]["rich_text"] else "",
+                "experience": page["properties"]["experience"]["rich_text"][0]["plain_text"] if page["properties"]["experience"]["rich_text"] else "0",
                 "content": page_content,  
             })  
-        return data  
+
+        return data 
 
     def extract_page_content(self, page):  
         """  
