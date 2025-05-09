@@ -7,11 +7,10 @@ from dotenv import load_dotenv
 from flask_cors import CORS
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv(override=True)
 
 # Load environment variables or API keys directly  
-# NOTION_API_KEY = os.getenv("NOTION_API_KEY")  
-NOTION_API_KEY = "ntn_n8608754952E2dX8eAXkqp0vkQyzaaJJKRk9FKc0a6i5Aq"
+NOTION_API_KEY = os.getenv("NOTION_API_KEY")  
 DATABASE_ID = os.getenv("NOTION_DATABASE_ID")  
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")  
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")  
